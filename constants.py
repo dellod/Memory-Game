@@ -26,6 +26,10 @@ FPS = 60
 # Running
 RUNNING = True
 
+# Colours
+BLACK   = (0, 0, 0)
+WHITE   = (255, 255, 255)
+
 # Events
 def QUIT_FUNC():
     global RUNNING

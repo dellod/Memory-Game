@@ -43,11 +43,31 @@ class Game:
         # Create Event Checker object
         self.event_checker = event_checker.EventChecker(constants.EVENTS)
 
+
+    def set_clock_tick(self, FPS) -> None:
+        self.clock.tick(FPS)
+
+
+    def update_display(self) -> None:
+        pygame.display.update()
+
+
     def close(self) -> None:
         pygame.quit()
+
 
     def run_game(self) -> None:
         while constants.RUNNING:
             # Use event checker to check events
             self.event_checker.check_events()
+
+            # Set tick rate for clock
+            self.set_clock_tick(constants.FPS)
+
+            # Draw background TODO: delete later (just for testing)
+            self.display.fill(constants.WHITE)
+
+            # Update pygame display
+            self.update_display()
+
         self.close()
