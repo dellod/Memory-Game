@@ -1,16 +1,24 @@
 # !/usr/bin/env python3
-# @file main.py
+# @file event_checker.py
 # Memory Game
 # Daryl Dang
 
 ####################################################################################################
 # IMPORTS
 ####################################################################################################
-import game
+import pygame
+import event
 
 ####################################################################################################
-# MAIN
+# EVENT CHECKER CLASS
 ####################################################################################################
-if __name__ == "__main__":
-   main_game = game.Game()
-   main_game.run_game()
+class EventChecker:
+    def __init__(self, events: list[event.Event]) -> None:
+        self.events = events
+
+    def check_events(self) -> None:
+        for event in pygame.event.get():
+            for e in self.events:
+                if event.type == e.id:
+                    e.action()
+
