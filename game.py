@@ -9,6 +9,7 @@
 import constants
 import event
 import event_checker
+import number_circle
 import pygame
 
 
@@ -56,19 +57,21 @@ class Game:
         pygame.quit()
 
 
-    def load_image(self, filepath: str, is_alpha_convert: bool, scale_size: tuple) -> any:
+    def load_image(self, filepath: str, is_alpha_convert: bool, scale_size: tuple) -> pygame.surface.Surface:
         if is_alpha_convert:
             img = pygame.image.load(filepath).convert_alpha()
         else:
             img = pygame.image.load(filepath).convert()
 
         img = pygame.transform.scale(img, scale_size)
-        print(type(img))
         return img
 
     def run_game(self) -> None:
         # Load images
         bg = self.load_image(constants.GAME_BACKGROUND_PATH, False, constants.BACKGROUND_SIZE)
+
+        # TODO: testing, remove later
+        test = number_circle.NumberCircle(self.display, (500, 500), 1)
 
         # Run game loop
         while constants.RUNNING:
@@ -80,6 +83,9 @@ class Game:
 
             # Blit background
             self.display.blit(bg, constants.BACKGROUND_POS)
+
+            # TODO: testing, remove later
+            test.draw_circle_with_number()
 
             # Update pygame display
             self.update_display()

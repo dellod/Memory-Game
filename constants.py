@@ -27,17 +27,21 @@ FPS = 60
 RUNNING = True
 
 # Colours
-BLACK   = (0, 0, 0)
-WHITE   = (255, 255, 255)
+BLACK           = (0, 0, 0)
+WHITE           = (255, 255, 255)
+NICE_BLUE       = (37, 150, 190)
 
-# Key Positions
+# Fonts
+pygame.init()
+NUMBER_FONT = pygame.font.Font('freesansbold.ttf', 32)
+
+# Game Background
+GAME_BACKGROUND_PATH = ".\\public\\images\\game_background.jpg"
 BACKGROUND_POS = (0,0)
-
-# Key Sizes
 BACKGROUND_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
-# File Paths
-GAME_BACKGROUND_PATH = ".\\public\\images\\game_background.jpg"
+# Number Circle
+CIRCLE_RAD = 50
 
 # Events
 def QUIT_FUNC():
