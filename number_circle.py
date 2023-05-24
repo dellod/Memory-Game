@@ -47,6 +47,7 @@ class NumberCircle:
        # Change hidden flag to False
        self.hidden = False
 
+
     def draw_circle_with_number_hidden(self) -> None:
        # Draw Circle
         self.circle = pygame.draw.circle(
@@ -83,6 +84,7 @@ class NumberCircle:
 
        # Change hidden flag to False
        self.hidden = False
+
 
     def draw_circle_with_guess_incorrect(self) -> None:
         # Draw Circle
