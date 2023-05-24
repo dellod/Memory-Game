@@ -13,8 +13,8 @@ import pygame
 # CONSTANTS
 ####################################################################################################
 # Screen Size
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
 SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
 # Game Caption
@@ -29,6 +29,15 @@ RUNNING = True
 # Colours
 BLACK   = (0, 0, 0)
 WHITE   = (255, 255, 255)
+
+# Key Positions
+BACKGROUND_POS = (0,0)
+
+# Key Sizes
+BACKGROUND_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
+
+# File Paths
+GAME_BACKGROUND_PATH = ".\\public\\images\\game_background.jpg"
 
 # Events
 def QUIT_FUNC():

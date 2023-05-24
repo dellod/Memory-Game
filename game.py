@@ -56,7 +56,21 @@ class Game:
         pygame.quit()
 
 
+    def load_image(self, filepath: str, is_alpha_convert: bool, scale_size: tuple) -> any:
+        if is_alpha_convert:
+            img = pygame.image.load(filepath).convert_alpha()
+        else:
+            img = pygame.image.load(filepath).convert()
+
+        img = pygame.transform.scale(img, scale_size)
+        print(type(img))
+        return img
+
     def run_game(self) -> None:
+        # Load images
+        bg = self.load_image(constants.GAME_BACKGROUND_PATH, False, constants.BACKGROUND_SIZE)
+
+        # Run game loop
         while constants.RUNNING:
             # Use event checker to check events
             self.event_checker.check_events()
@@ -64,8 +78,8 @@ class Game:
             # Set tick rate for clock
             self.set_clock_tick(constants.FPS)
 
-            # Draw background TODO: delete later (just for testing)
-            self.display.fill(constants.WHITE)
+            # Blit background
+            self.display.blit(bg, constants.BACKGROUND_POS)
 
             # Update pygame display
             self.update_display()
