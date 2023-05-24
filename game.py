@@ -86,6 +86,7 @@ class Game:
 
             # TODO: testing, remove later
             test.draw_circle_with_number()
+            test.draw_circle_with_number_hidden()
 
             # Update pygame display
             self.update_display()

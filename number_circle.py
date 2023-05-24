@@ -20,9 +20,10 @@ class NumberCircle:
         self.number = number
 
         self.circle = None
+        self.hidden = True
 
     def draw_circle_with_number(self) -> None:
-       # Draw Cirle
+       # Draw Circle
        self.circle = pygame.draw.circle(
                             self.surface,
                             constants.NICE_BLUE,
@@ -40,5 +41,20 @@ class NumberCircle:
        num_rect = num.get_rect()
        num_rect.center = self.position
 
-       # Blit
+       # Blit text
        self.surface.blit(num, num_rect)
+
+       # Change hidden flag to False
+       self.hidden = False
+
+    def draw_circle_with_number_hidden(self) -> None:
+       # Draw Circle
+        self.circle = pygame.draw.circle(
+                            self.surface,
+                            constants.NICE_BLUE,
+                            self.position,
+                            constants.CIRCLE_RAD
+                                       )
+
+        # Change hidden flag to False
+        self.hidden = True

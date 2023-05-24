@@ -15,5 +15,3 @@ import pygame
 class MemoryLogic:
     def __init__(self) -> None:
         pass
-
-    
