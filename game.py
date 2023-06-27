@@ -9,6 +9,7 @@
 import constants
 import event
 import event_checker
+import memory_logic
 import number_circle
 import pygame
 
@@ -66,12 +67,19 @@ class Game:
         img = pygame.transform.scale(img, scale_size)
         return img
 
+
+    def clear_board(self):
+        pass
+
+
     def run_game(self) -> None:
         # Load images
         bg = self.load_image(constants.GAME_BACKGROUND_PATH, False, constants.BACKGROUND_SIZE)
 
-        # TODO: testing, remove later
-        test = number_circle.NumberCircle(self.display, (500, 500), 1)
+        # Setup memory logic component
+        test = memory_logic.MemoryLogic()
+        test.curr_max = 10
+        test.randomize_circles(display=self.display)
 
         # Run game loop
         while constants.RUNNING:
@@ -85,11 +93,7 @@ class Game:
             self.display.blit(bg, constants.BACKGROUND_POS)
 
             # TODO: testing, remove later
-            test.draw_circle_with_number()
-            test.draw_circle_with_number_hidden()
-            test.draw_circle_with_guess_correct()
-            test.draw_circle_with_guess_incorrect()
-            print(test.detect_circle_click(pygame.mouse.get_pos(), pygame.mouse.get_pressed()))
+            test.draw_circles()
 
             # Update pygame display
             self.update_display()

@@ -29,7 +29,7 @@ RUNNING = True
 # Colours
 BLACK           = (0, 0, 0)
 WHITE           = (255, 255, 255)
-RED        = (180, 0, 0)
+RED             = (180, 0, 0)
 NICE_BLUE       = (37, 150, 190)
 NICE_GREEN      = (35, 173, 72)
 

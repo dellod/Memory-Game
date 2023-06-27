@@ -8,6 +8,7 @@
 ####################################################################################################
 import pygame
 import constants
+import math
 
 
 ####################################################################################################
@@ -114,3 +115,15 @@ class NumberCircle:
     def detect_circle_click(self, pos, clicked_tuple) -> bool:
         # Check if position collides with the circle and it has been clicked
         return self.circle.collidepoint(pos) and clicked_tuple[0]
+
+
+    def check_if_collide_with_circle(self, c2_pos, c2_rad) -> bool:
+        # Pythagorean theorem
+        distance = math.sqrt((math.pow(c2_pos[0] - self.position[0], 2))
+                             + (math.pow(c2_pos[1] - self.position[1], 2)))
+
+        # Check if distance is less than 2 circle radius
+        if distance < (constants.CIRCLE_RAD * 2):
+            return True
+        else:
+            return False
