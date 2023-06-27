@@ -111,6 +111,6 @@ class NumberCircle:
        self.hidden = False
 
 
-    def detect_circle_click(self, pos) -> None:
-        # Check if position collides with the circle
-        return self.circle.collidepoint(pos)
+    def detect_circle_click(self, pos, clicked_tuple) -> bool:
+        # Check if position collides with the circle and it has been clicked
+        return self.circle.collidepoint(pos) and clicked_tuple[0]

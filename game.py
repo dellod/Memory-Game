@@ -89,6 +89,7 @@ class Game:
             test.draw_circle_with_number_hidden()
             test.draw_circle_with_guess_correct()
             test.draw_circle_with_guess_incorrect()
+            print(test.detect_circle_click(pygame.mouse.get_pos(), pygame.mouse.get_pressed()))
 
             # Update pygame display
             self.update_display()
