@@ -12,7 +12,7 @@ import event_checker
 import memory_logic
 import number_circle
 import pygame
-
+import time # TODO: remove later
 
 ####################################################################################################
 # GAME CLASS
@@ -45,6 +45,9 @@ class Game:
         # Create Event Checker object
         self.event_checker = event_checker.EventChecker(constants.EVENTS)
 
+        # Set level
+        self.level = 1
+
 
     def set_clock_tick(self, FPS) -> None:
         self.clock.tick(FPS)
@@ -72,14 +75,26 @@ class Game:
         pass
 
 
+    def show_correct_screen(self):
+        # this will display a screen that shows that the guess was correct
+        # TODO: remove below
+        print("correct guess")
+        time.sleep(2)
+
+    def show_wrong_screen(self):
+        # this will display a screen that shows that the guess was wrong
+        # TODO: remove below
+        print("WRONG guess")
+        time.sleep(2)
+
+
     def run_game(self) -> None:
         # Load images
         bg = self.load_image(constants.GAME_BACKGROUND_PATH, False, constants.BACKGROUND_SIZE)
 
         # Setup memory logic component
-        test = memory_logic.MemoryLogic()
-        test.curr_max = 10
-        test.randomize_circles(display=self.display)
+        logic = memory_logic.MemoryLogic(self.level) # Pass in init level
+        logic.randomize_circles(display=self.display)
 
         # Run game loop
         while constants.RUNNING:
@@ -92,9 +107,28 @@ class Game:
             # Blit background
             self.display.blit(bg, constants.BACKGROUND_POS)
 
-            # TODO: testing, remove later
-            test.draw_circles()
-            print(test.check_circle_touched())
+            # Draw circles in memory
+            logic.draw_circles()
+
+            # Check which circle was pressed
+            user_guess = logic.check_circle_touched()
+            if user_guess != -1:
+                if logic.compare_guess_and_curr(user_guess):
+                    self.show_correct_screen()
+                    logic.increment_curr_correct()
+                else:
+                    logic.wrong_guess_num = user_guess
+                    self.show_wrong_screen()
+                    logic.level_down()
+                    logic.randomize_circles(display=self.display)
+
+            # Check if we can level up
+            if logic.check_levelup():
+                logic.level_up()
+                logic.randomize_circles(display=self.display)
+
+            # Draw circles in memory
+            logic.draw_circles()
 
             # Update pygame display
             self.update_display()
