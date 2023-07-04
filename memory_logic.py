@@ -18,7 +18,7 @@ import random
 class MemoryLogic:
     def __init__(self) -> None:
         self.curr_max = 1
-        self.circles = []
+        self.circles = {}
 
 
     def level_up(self) -> int:
@@ -42,17 +42,17 @@ class MemoryLogic:
                                        constants.SCREEN_SIZE[1] - constants.CIRCLE_RAD,
                                       )
                        )
-            for circle in self.circles:
+            for key, circle in self.circles.items():
                 if circle.check_if_collide_with_circle(position, constants.CIRCLE_RAD):
                     do_restart = True
                     break
             if do_restart:
                 continue
 
-            self.circles.append(number_circle.NumberCircle(display, position, i))
+            self.circles[i] = (number_circle.NumberCircle(display, position, i))
             i += 1
 
 
     def draw_circles(self) -> None:
-        for circle in self.circles:
+        for key, circle in self.circles.items():
             circle.draw_circle_with_guess_correct()
