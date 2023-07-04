@@ -56,3 +56,10 @@ class MemoryLogic:
     def draw_circles(self) -> None:
         for key, circle in self.circles.items():
             circle.draw_circle_with_guess_correct()
+
+    def check_circle_touched(self) -> int:
+        for key, circle in self.circles.items():
+            if circle.detect_circle_click(pygame.mouse.get_pos(), pygame.mouse.get_pressed()):
+                return key
+
+        return -1

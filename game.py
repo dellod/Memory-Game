@@ -94,6 +94,7 @@ class Game:
 
             # TODO: testing, remove later
             test.draw_circles()
+            print(test.check_circle_touched())
 
             # Update pygame display
             self.update_display()
