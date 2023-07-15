@@ -10,8 +10,8 @@ import constants
 import event
 import event_checker
 import memory_logic
-import number_circle
 import pygame
+import score
 from enum import Enum
 
 
@@ -57,6 +57,9 @@ class Game:
 
         # Create Event Checker object
         self.event_checker = event_checker.EventChecker(constants.EVENTS)
+
+        # Setup current score
+        self.current_score = score.Score()
 
         # Setup memory logic component
         self.logic = memory_logic.MemoryLogic()
@@ -164,6 +167,10 @@ class Game:
 
             # Blit background
             self.display.blit(bg, constants.BACKGROUND_POS)
+
+            # Show score
+            self.current_score.update_score(self.logic.curr_max)
+            self.current_score.draw_curr_score(self.display)
 
             # check and run status
             self.check_and_run_status()()

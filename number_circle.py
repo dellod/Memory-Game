@@ -12,7 +12,7 @@ import math
 from enum import Enum
 
 ####################################################################################################
-# STATUS ENUM
+# CIRCLE STATUS ENUM
 ####################################################################################################
 class CircleStatus(Enum):
     NOT_HIDDEN    = 0
@@ -32,6 +32,7 @@ class NumberCircle:
 
         self.circle = None
         self.status = CircleStatus.GUESSED_RIGHT
+
 
     def hide_circle(self):
         self.status = CircleStatus.HIDDEN
