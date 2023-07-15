@@ -88,8 +88,6 @@ class Game:
 
 
     def start_round(self):
-        print("start round")
-        print(self.logic.circles)
         self.logic.randomize_circles(display=self.display)
         self.logic.unhide_all_circles()
         self.logic.draw_circles()
@@ -109,7 +107,6 @@ class Game:
                 if self.check_if_level_up():
                     self.setup_next_round_level_up()
             elif user_guess[0] > self.logic.curr_guess:
-                print("GUESSED WRONG:")
                 user_guess[1].guess_incorrect()
                 self.setup_next_round_level_down()
 
@@ -130,9 +127,8 @@ class Game:
     def setup_next_round_level_down(self) -> None:
         self.logic.level_down()
         self.logic.reset_guess()
-        print("guess: ", self.logic.curr_guess)
-        print("max: ", self.logic.curr_max)
         self.status = GameStatus.ROUND_START
+
 
     def check_and_run_status(self):
         SWITCH = {
