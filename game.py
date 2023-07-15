@@ -12,6 +12,19 @@ import event_checker
 import memory_logic
 import number_circle
 import pygame
+from enum import Enum
+
+
+####################################################################################################
+# GAME STATUS
+####################################################################################################
+class GameStatus(Enum):
+    MENU                = 0
+    LEVEL_ANNOUNCEMENT  = 1
+    ROUND_START         = 2
+    ROUND_GUESS         = 3
+    GUESSED_CORRECTLY   = 4
+    GUESSED_INCORRECTLY = 5
 
 
 ####################################################################################################
@@ -45,6 +58,12 @@ class Game:
         # Create Event Checker object
         self.event_checker = event_checker.EventChecker(constants.EVENTS)
 
+        # Setup memory logic component
+        self.logic = memory_logic.MemoryLogic()
+
+        # Declare status of game
+        self.status = GameStatus.MENU
+
 
     def set_clock_tick(self, FPS) -> None:
         self.clock.tick(FPS)
@@ -68,18 +87,76 @@ class Game:
         return img
 
 
-    def clear_board(self):
+    def start_round(self):
+        print("start round")
+        print(self.logic.circles)
+        self.logic.randomize_circles(display=self.display)
+        self.logic.unhide_all_circles()
+        self.logic.draw_circles()
+        self.update_display()
+        pygame.time.wait(1500)
+        self.logic.hide_all_circles()
+        self.status = GameStatus.ROUND_GUESS
+
+
+    def start_guess(self):
+        self.logic.draw_circles()
+        user_guess = self.logic.check_circle_touched()
+        if user_guess[0] != -1:
+            if user_guess[0] == self.logic.curr_guess:
+                user_guess[1].guess_correct()
+                self.logic.increment_guess()
+                if self.check_if_level_up():
+                    self.setup_next_round_level_up()
+            elif user_guess[0] > self.logic.curr_guess:
+                print("GUESSED WRONG:")
+                user_guess[1].guess_incorrect()
+                self.setup_next_round_level_down()
+
+
+    def check_if_level_up(self) -> bool:
+        if self.logic.curr_guess > self.logic.curr_max:
+            return True
+        else:
+            return False
+
+
+    def setup_next_round_level_up(self) -> None:
+        self.logic.level_up()
+        self.logic.reset_guess()
+        self.status = GameStatus.ROUND_START
+
+
+    def setup_next_round_level_down(self) -> None:
+        self.logic.level_down()
+        self.logic.reset_guess()
+        print("guess: ", self.logic.curr_guess)
+        print("max: ", self.logic.curr_max)
+        self.status = GameStatus.ROUND_START
+
+    def check_and_run_status(self):
+        SWITCH = {
+            GameStatus.MENU: self.run_menu,
+            GameStatus.LEVEL_ANNOUNCEMENT: self.announce_level,
+            GameStatus.ROUND_START: self.start_round,
+            GameStatus.ROUND_GUESS: self.start_guess,
+        }
+        return SWITCH[self.status]
+
+
+    def run_menu(self) -> None:
+        pass
+
+
+    def announce_level(self) -> None:
         pass
 
 
     def run_game(self) -> None:
+        # TODO: remove later, skipping menu and going right into round start just for testing
+        self.status = GameStatus.ROUND_START
         # Load images
         bg = self.load_image(constants.GAME_BACKGROUND_PATH, False, constants.BACKGROUND_SIZE)
-
-        # Setup memory logic component
-        test = memory_logic.MemoryLogic()
-        test.curr_max = 10
-        test.randomize_circles(display=self.display)
 
         # Run game loop
         while constants.RUNNING:
@@ -92,9 +169,8 @@ class Game:
             # Blit background
             self.display.blit(bg, constants.BACKGROUND_POS)
 
-            # TODO: testing, remove later
-            test.draw_circles()
-            print(test.check_circle_touched())
+            # check and run status
+            self.check_and_run_status()()
 
             # Update pygame display
             self.update_display()

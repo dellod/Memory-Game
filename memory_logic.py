@@ -18,6 +18,7 @@ import random
 class MemoryLogic:
     def __init__(self) -> None:
         self.curr_max = 1
+        self.curr_guess = 1
         self.circles = {}
 
 
@@ -31,7 +32,19 @@ class MemoryLogic:
             self.curr_max -= 1
         return self.curr_max
 
+
+    def increment_guess(self) -> int:
+        self.curr_guess += 1
+        return self.curr_guess
+
+
+    def reset_guess(self) -> int:
+        self.curr_guess = 1
+        return self.curr_guess
+
+
     def randomize_circles(self, display) -> None:
+        self.circles.clear()
         i = 1
         while i <= self.curr_max:
             do_restart = False
@@ -53,13 +66,24 @@ class MemoryLogic:
             i += 1
 
 
+    def hide_all_circles(self) -> None:
+        for key, circle in self.circles.items():
+            circle.hide_circle()
+
+
+    def unhide_all_circles(self) -> None:
+        for key, circle in self.circles.items():
+            circle.unhide_circle()
+
+
     def draw_circles(self) -> None:
         for key, circle in self.circles.items():
-            circle.draw_circle_with_guess_correct()
+            circle.draw_circle()()
 
-    def check_circle_touched(self) -> int:
+
+    def check_circle_touched(self):
         for key, circle in self.circles.items():
             if circle.detect_circle_click(pygame.mouse.get_pos(), pygame.mouse.get_pressed()):
-                return key
+                return [key, circle]
 
-        return -1
+        return [-1, None]

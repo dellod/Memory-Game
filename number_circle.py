@@ -9,10 +9,20 @@
 import pygame
 import constants
 import math
+from enum import Enum
+
+####################################################################################################
+# STATUS ENUM
+####################################################################################################
+class CircleStatus(Enum):
+    NOT_HIDDEN    = 0
+    HIDDEN        = 1
+    GUESSED_WRONG = 2
+    GUESSED_RIGHT = 3
 
 
 ####################################################################################################
-# BLOCK CLASS
+# CIRCLE CLASS
 ####################################################################################################
 class NumberCircle:
     def __init__(self, surface: pygame.surface, position: tuple, number: int) -> None:
@@ -21,7 +31,34 @@ class NumberCircle:
         self.number = number
 
         self.circle = None
-        self.hidden = True
+        self.status = CircleStatus.GUESSED_RIGHT
+
+    def hide_circle(self):
+        self.status = CircleStatus.HIDDEN
+
+
+    def unhide_circle(self):
+        self.status = CircleStatus.NOT_HIDDEN
+
+
+    def guess_correct(self):
+        self.status = CircleStatus.GUESSED_RIGHT
+
+
+    def guess_incorrect(self):
+        self.status = CircleStatus.GUESSED_WRONG
+
+
+    def draw_circle(self):
+        SWITCH = {
+            CircleStatus.NOT_HIDDEN: self.draw_circle_with_number,
+            CircleStatus.HIDDEN: self.draw_circle_with_number_hidden,
+            CircleStatus.GUESSED_WRONG: self.draw_circle_with_guess_incorrect,
+            CircleStatus.GUESSED_RIGHT: self.draw_circle_with_guess_correct,
+        }
+
+        return SWITCH[self.status]
+
 
     def draw_circle_with_number(self) -> None:
        # Draw Circle
