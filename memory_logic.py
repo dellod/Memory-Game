@@ -76,6 +76,12 @@ class MemoryLogic:
             circle.unhide_circle()
 
 
+    def unhide_all_circles_only_if_hidden(self) -> None:
+        for key, circle in self.circles.items():
+            if circle.status == number_circle.CircleStatus.HIDDEN:
+                circle.unhide_circle()
+
+
     def draw_circles(self) -> None:
         for key, circle in self.circles.items():
             circle.draw_circle()()
