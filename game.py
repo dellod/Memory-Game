@@ -95,7 +95,7 @@ class Game:
         self.logic.unhide_all_circles()
         self.logic.draw_circles()
         self.update_display()
-        pygame.time.wait(1500)
+        pygame.time.wait(constants.SHOW_TIME)
         self.logic.hide_all_circles()
         self.status = GameStatus.ROUND_GUESS
 
@@ -108,9 +108,11 @@ class Game:
                 user_guess[1].guess_correct()
                 self.logic.increment_guess()
                 if self.check_if_level_up():
+                    self.show_success_screen()
                     self.setup_next_round_level_up()
             elif user_guess[0] > self.logic.curr_guess:
                 user_guess[1].guess_incorrect()
+                self.show_failure_screen(user_guess[1])
                 self.setup_next_round_level_down()
 
 
@@ -119,6 +121,25 @@ class Game:
             return True
         else:
             return False
+
+
+    def show_success_screen(self) -> None:
+        # Show all circles again
+        self.logic.draw_circles()
+        self.update_display()
+
+        # Pause to see
+        pygame.time.wait(constants.WIN_SHOW_TIME)
+
+
+    def show_failure_screen(self, incorrect_circle) -> None:
+        # Show all circles again
+        self.logic.unhide_all_circles_only_if_hidden()
+        self.logic.draw_circles()
+        self.update_display()
+
+        # Pause to see
+        pygame.time.wait(constants.WIN_SHOW_TIME)
 
 
     def setup_next_round_level_up(self) -> None:
